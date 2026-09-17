@@ -12,60 +12,60 @@ holding a `SKILL.md` and the scripts it calls.
 
 ## Install
 
-Clone the repository and run the installer:
+```bash
+npx github:beanbocchi/bean-skills
+```
+
+That asks where to put the skills, which ones to take, and whether to copy or
+symlink them. Nothing is installed globally. Claude Code runs on Node, so the
+`npx` is already on the machine.
+
+Restart Claude Code afterwards and run `/skills` to see them.
+
+### Without the questions
+
+```bash
+npx github:beanbocchi/bean-skills install                    # all of them
+npx github:beanbocchi/bean-skills install humanizing-writing # one
+npx github:beanbocchi/bean-skills list
+npx github:beanbocchi/bean-skills uninstall humanizing-writing
+```
+
+`install` and `uninstall` take:
+
+| Flag | Effect |
+|---|---|
+| `--user` | Into `~/.claude/skills`, where Claude Code reads them in every project. The default. |
+| `--project [dir]` | Into `<dir>/.claude/skills`, default the current directory. Overrides a skill of the same name in `~/.claude/skills`. |
+| `--target <dir>` | Into a directory you name. |
+| `--link` | Symlink instead of copy, so an edit in the clone applies without reinstalling. Needs a clone, not `npx`. |
+| `--force` | Overwrite a skill that is already installed. |
+
+### From a clone
 
 ```bash
 git clone https://github.com/beanbocchi/bean-skills.git
 cd bean-skills
-./install.sh
+npm install
+node bin/cli.js
 ```
 
-That copies every skill into `~/.claude/skills`, where Claude Code finds them in
-any project. Restart Claude Code and run `/skills` to see them.
-
-Without a clone:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/beanbocchi/bean-skills/main/install.sh | bash
-```
-
-The piped form clones the repository into a temporary directory and deletes it
-when it finishes.
-
-### Options
-
-```
-./install.sh                          every skill into ~/.claude/skills
-./install.sh humanizing-writing       one skill
-./install.sh --list                   the skills in this repository
-./install.sh --project                into ./.claude/skills, for this project only
-./install.sh --project ../other-repo  into another project
-./install.sh --link                   symlink instead of copy
-./install.sh --force                  overwrite what is installed
-./install.sh --uninstall              remove them all
-./install.sh --uninstall humanizing-writing
-```
-
-`--link` symlinks each skill back to the clone, so an edit in the clone takes
-effect on the next Claude Code session without reinstalling. Use it when you are
-changing a skill.
-
-A skill installed under `--project` overrides one of the same name in
-`~/.claude/skills`.
+Use this to change a skill. `node bin/cli.js install --link` points
+`~/.claude/skills` back at the clone.
 
 ## Requirements
 
-The installer needs bash and, for the piped form, git. `humanizing-writing` runs
-its checker under Python 3 with no packages. `capturing-doc-screenshots` needs
-Playwright in the repository it runs against.
+Node 18 or newer for the installer. `humanizing-writing` runs its checker under
+Python 3 with no packages. `capturing-doc-screenshots` needs Playwright in the
+repository it runs against.
 
 ## Adding a skill
 
 A skill is a directory at the top level of this repository with a `SKILL.md`
-whose front matter carries `name` and `description`. The installer picks up any
-directory matching that shape, so a new skill needs no change to `install.sh`.
-Write the description as the condition that should trigger the skill, because
-that line is what Claude Code reads when deciding whether to load it.
+whose front matter carries `name` and `description`. The installer lists any
+directory matching that shape, so a new skill needs no change to the CLI. Write
+the description as the condition that should trigger the skill, because that line
+is what Claude Code reads when deciding whether to load it.
 
 ## License
 

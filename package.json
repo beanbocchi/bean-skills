@@ -1,0 +1,27 @@
+{
+  "name": "bean-skills",
+  "version": "0.1.0",
+  "description": "Claude Code skills, with an installer that puts them in ~/.claude/skills",
+  "type": "module",
+  "bin": {
+    "bean-skills": "bin/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beanbocchi/bean-skills.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "commander": "^15.0.0",
+    "picocolors": "^1.1.1"
+  }
+}
